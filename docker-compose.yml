@@ -1,0 +1,71 @@
+# M281M AI Trading System - Docker Compose
+
+version: '3.8'
+
+services:
+  # Data Recorder - Collects live market data
+  data-recorder:
+    build: .
+    container_name: m281m-data-recorder
+    command: python scripts/record_live_data.py
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - m281m-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Paper Trading - Runs paper trading system
+  paper-trading:
+    build: .
+    container_name: m281m-paper-trading
+    command: python scripts/run_paper_trading.py
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./config:/app/config
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1
+    networks:
+      - m281m-network
+    depends_on:
+      - data-recorder
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # Redis - Message broker (optional, for future use)
+  redis:
+    image: redis:7-alpine
+    container_name: m281m-redis
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - m281m-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  m281m-network:
+    driver: bridge
+
+volumes:
+  redis-data:

@@ -1,0 +1,34 @@
+{
+  "timestamp": "2026-02-26T17:03:00.363320",
+  "status": "ACTIVE",
+  "uptime": "0:25:31.342755",
+  "price": 67793.48,
+  "signal": "HOLD",
+  "confidence": 0.7420552691832295,
+  "capital": 10000,
+  "position": 0,
+  "position_value": 0.0,
+  "total_value": 10000.0,
+  "total_trades": 0,
+  "experiences": 0,
+  "kill_switch": {
+    "is_killed": false,
+    "kill_reason": null,
+    "consecutive_losses": 0,
+    "avg_confidence": 0.6787012471879048
+  },
+  "model_performance": {
+    "momentum": {
+      "correct": 0,
+      "total": 0
+    },
+    "mean_reversion": {
+      "correct": 0,
+      "total": 0
+    },
+    "order_flow": {
+      "correct": 0,
+      "total": 0
+    }
+  }
+}
